@@ -20,6 +20,8 @@ vez en Github:
       $ git commit -m "mensaje conciso que defina el contenido del commit"  
     
       $ git remote add origin [enlace al repo que queremos enlazar con nuestra carpeta en local]  
+      
+      $ git remote -v    
     
       $ git push -u origin master  
     
@@ -48,3 +50,119 @@ vez en Github:
   decidimos no añadirlo en el siguiente commit):
   
       $ git reset HEAD <file>
+      
+- Mostrar las direcciones URL de los repositorios remotos conectados a nuestra  
+carpeta en local:  
+
+      $ git remote -v
+      
+- Workflow en trabajo en equipo. El proceso es igual que en solitario, pero con la obligación. 
+de mantenerse siempre **sincronizado**. 
+
+   - Nos traemos el repo de remoto a local y lo mergeamos con nuestros archivos:
+
+         $ git pull
+         
+   - Preparamos el commit. Shorthand de add + commit usando -am:
+
+         $ git commit -am "descripción del cambio"
+         
+   - Subimos los cambios al repositorio:
+
+         $ git push
+         
+
+> Un truco para que Git cachee las credenciales y evitar que  nos esté pidiendo constantemente  
+usuario y contraseña:  
+
+         $ git config --global credential.helper 'cache --timeout=9999999'
+         
+
+         
+      
+
+### Ramas
+**********************************************
+
+Las ramas en Git son como universos paralelos que bifurcan nuestro proyecto en un momento  
+determinado del tiempo, creando una copia exacta, que utilizaremos en el trabajo en equipo  
+como campo de pruebas para poder desarrollar features, o hacer experimentos y tests sin corromper  
+el código principal.
+
+- Crear una rama: 
+
+      $ git branch NOMBRERAMA
+      
+- Ver listado de ramas de nuestro repositorio:  
+
+      $ git branch
+      
+- Cambiar de rama:  
+
+      $ git checkout NOMBRERAMA
+      
+- Borrar una rama:  
+
+      $ git branch -d NOMBRERAMA
+      
+- Renombrar una rama:  
+
+      $ git branch -m NOMBRERAMA NOMBRENUEVO
+      
+Un workflow básico con ramas en Git consistirá en desarrollar nuestra feature en una rama secundaria  
+para posteriormente `fusionar` ambas y borrar la secundaria, manteniendo así limpio nuestro historial. 
+
+- Nos situamos en la rama `principal`, que suele ser main, que es la que absorberá la rama secundaria:  
+
+      $ git checkout RAMAPRINCIPAL
+      
+- Fusionamos ambas ramas con el comando `merge` y el nombre de la rama absorbida:  
+
+      $ git merge RAMASECUNDARIA
+      
+- Comprobamos el estado de las ramas ya fusionadas:  
+
+      $ git branch
+      
+- Borramos la rama absorbida:  
+
+      $ git branch -d RAMASECUNDARIA
+      
+Ahora bien, este método resultará útil en un proyecto donde trabajen una o dos personas, pero por lo general  
+los equipos de trabajo suelen ser más grandes, y fusionar ramas normalmente ocasionará **conlfictos**, siendo  
+los siguientes los workflows más habituales:
+
+- Manual merge (conflicto: dos personas tocan los mismos archivos):
+   - Nos situamos en la rama que absorberá:  
+
+         $ git checkout RAMAPRINCIPAL
+         
+   - Hacemos la fusión:  
+
+         $ git merge RAMASECUNDARIA
+         
+   - En la consola aparecerá un mensaje de error:  
+
+         Auto-merging CARPETA/ARCHIVO
+         CONFLICT (content): Merge conflict in CARPETA/ARCHIVO
+         Automatic merge failed; fix conflicts and then commit the result.
+         
+   - Nos vamos al editor de código y resolvemos el conflicto indicado. Guardamos. 
+   - Comprobamos el estado:  
+
+         $ git status
+         
+   - Commit para la resolución del conflicto:  
+
+         $ git commit -am "mensaje resolución conflicto"
+         
+   - Opcionalmente borramos la rama fusionada:
+
+         $ git branch -d NOMBRERAMA
+         
+
+
+
+### Modificar la historia
+************************************************
+
