@@ -91,7 +91,11 @@ el código principal.
 
 - Crear una rama: 
 
-      $ git branch NOMBRERAMA
+      $ git branch NOMBRERAMA  
+      
+- Crear una rama y cambiarnos a la nueva rama creada:  
+
+      $ git checkout -b NOMBRERAMA
       
 - Ver listado de ramas de nuestro repositorio:  
 
@@ -107,7 +111,11 @@ el código principal.
       
 - Renombrar una rama:  
 
-      $ git branch -m NOMBRERAMA NOMBRENUEVO
+      $ git branch -m NOMBRERAMA NOMBRENUEVO  
+    
+- Ver las diferencias entre dos ramas. Primero me sitúo en una:
+
+      $ git diff NOMBRERAMAQUEQUIEROCOMPARAR
       
 Un workflow básico con ramas en Git consistirá en desarrollar nuestra feature en una rama secundaria  
 para posteriormente `fusionar` ambas y borrar la secundaria, manteniendo así limpio nuestro historial. 
@@ -130,17 +138,29 @@ para posteriormente `fusionar` ambas y borrar la secundaria, manteniendo así li
       
 Ahora bien, este método resultará útil en un proyecto donde trabajen una o dos personas, pero por lo general  
 los equipos de trabajo suelen ser más grandes, y fusionar ramas normalmente ocasionará **conlfictos**, siendo  
-los siguientes los workflows más habituales:
+los siguientes workflows los más habituales:
 
 - Manual merge (conflicto: dos personas tocan los mismos archivos):
-   - Nos situamos en la rama que absorberá:  
+   - Creamos una rama en la que haremos nuestro trabajo picando código:  
 
-         $ git checkout RAMAPRINCIPAL
+         $ git checkout -b RAMASECUNDARIA
          
-   - Hacemos la fusión:  
+   - Hacemos commit de los cambios, sin salirnos de esa rama:  
 
-         $ git merge RAMASECUNDARIA
+         $ git commit -am "mensaje" --> solo en caso de que sea un archivo **modificado**   
+         Si es un archivo recién creado nunca subido a Github:  
+         $ git add .
+         $ git commit -m "mensaje"  
          
+   - Hacemos un git diff con la rama master para ver qué arhivos modificados crean conflicto:  
+
+         $ git diff master. 
+         
+   - Tratamos de fusionar con la rama principal:
+
+         $ git merge master  
+         
+  
    - En la consola aparecerá un mensaje de error:  
 
          Auto-merging CARPETA/ARCHIVO
@@ -159,6 +179,15 @@ los siguientes los workflows más habituales:
    - Opcionalmente borramos la rama fusionada:
 
          $ git branch -d NOMBRERAMA
+         
+De esta forma quedará actualizada mi rama con los cambios que los compañeros van haciendo en  
+la rama principal. En Github se creará la opción para que el encargado de validar el código  
+acepte nuestro "pull request"(en proyectos individuales seremos nosotros mismos), de forma  
+que se fusione con el código principal. Si después queremos tener una versión de la web app  
+totalmente actualizada, tendremos que hacer un "pull" situándonos en la carpeta de nuestro  
+proyecto en la terminal:  
+
+         $ git pull
          
 
 
