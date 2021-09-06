@@ -49,7 +49,11 @@ vez en Github:
 - Eliminar un fichero del _stage_ (si lo hemos añadido, pero al final
   decidimos no añadirlo en el siguiente commit):
   
-      $ git reset HEAD <file>
+      $ git reset HEAD <file>  
+- Desecha los cambios realizados en local. Despúes haríamos un git pull para 
+tener el repo actualizado en nuestro equipo.
+
+      $ git reset --hard
       
 - Mostrar las direcciones URL de los repositorios remotos conectados a nuestra  
 carpeta en local:  
